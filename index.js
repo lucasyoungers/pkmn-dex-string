@@ -28,10 +28,10 @@ function getHeight(pokemonData) {
 
 function getWeight(pokemonData) {
     const weight = pokemonData.weight * 0.2204623
-    return Math.round(weight * 10) / 10
+    return weight
 }
 
-async function getString(pokemon, format) {
+async function getString(pokemon, format="sv") {
     // get data from api
     const pokemonData = await fetchData("https://pokeapi.co/api/v2/pokemon/" + pokemon)
     const speciesData = await fetchData(pokemonData.species.url)
@@ -43,8 +43,38 @@ async function getString(pokemon, format) {
     const weight = getWeight(pokemonData)
 
     // convert data to string format
-    const svFormat = `NO. ${String(number).padStart(4, "0")}  ${species}  HT: ${height.ft}'${height.in}"  WT: ${weight} lbs.`
-    return svFormat
+    switch (format) {
+        case "base":
+        case "gym":
+        case "neo":
+        case "e":
+            format = `%s. Length: %f'%i", Weight: %0w lbs.`
+            break
+        case "dppt":
+        case "hgss":
+        case "bw":
+        case "xy":
+        case "sm":
+        case "swsh":
+            format = `NO. %3n  %s  HT: %f'%i"  WT: %w lbs.`
+            break
+        case "sv":
+            format = `NO. %4n  %s  HT: %f'%i"  WT: %w lbs.`
+            break
+        default:
+            break
+    }
+
+    const output = format
+        .replace(/%\d*n/, s => String(number).padStart(Number(s.slice(1, -1)), "0"))
+        .replace("%s", species)
+        .replace("%f", height.ft)
+        .replace("%i", height.in)
+        .replace(/%\d*w/, s => {
+            const n = Number(s.slice(1, -1) || 1)
+            return Math.round(weight * (10**n)) / (10**n)
+        })
+    return output
 }
 
 async function main() {

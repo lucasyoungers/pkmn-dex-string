@@ -25,9 +25,9 @@ The `--delimiter`, or `-d` flag allows you to specify a custom delimeter for lis
 node index.js --delimiter=, <pokémon name>
 ```
 
-The `--format`, or `-f` flag allows you to specify the format in which you wish the dex string to be generated. The default value for this is `sv`, but other formats are allowed (`swsh`, `sm`, `xy`, `bw`, `hgss`, `dppt`, `rs`, `e`, `neo`, `gym`, `base`). To specify a custom format, you can use a string in quotations, with % signs to signify placeholders for dex number (%n), species (%s), height in feet (%f), remaining height in inches (%i), and weight in pounds (%w). To escape a quotation, use `\"` within your string.
+The `--format`, or `-f` flag allows you to specify the format in which you wish the dex string to be generated. The default value for this is `sv`, but other formats are allowed (`swsh`, `sm`, `xy`, `bw`, `hgss`, `dppt`, `e`, `neo`, `gym`, `base`). To specify a custom format, you can use a string in quotations, with % signs to signify placeholders for dex number (%Xn, where X is the number of 0s used to pad the number), species (%s), height in feet (%f), remaining height in inches (%i), and weight in pounds (%Xw, where X is the number of decimal places). To escape a quotation, use `\"` within your string.
 ```bash
-node index.js --format="NO. %n  %s  HT: %f'%i\"  WT: %w lbs." <pokémon name>
+node index.js --format="NO. %4n  %s  HT: %f'%i\"  WT: %w lbs." <pokémon name>
 ```
 
 ## Features
