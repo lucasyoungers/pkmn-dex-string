@@ -1,0 +1,14 @@
+{
+  "name": "pkmn-deck-string",
+  "version": "1.0.0",
+  "description": "A node.js CLI app designed to generate Pokédex strings as seen on the border of most Pokémon cards. Uses the [PokéApi](https://pokeapi.co/) to fetch data, and parses into the desired format.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "minimist": "^1.2.8"
+  }
+}

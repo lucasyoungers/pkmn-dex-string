@@ -1,10 +1,12 @@
 #!/usr/bin/env node
 
+const parseArgs = require("minimist")
+
 async function fetchData(url) {
     const res = await fetch(url)
     if (!res.ok) {
         console.error(res.statusText)
-        exit(1)
+        process.exit(1)
     }
     return res.json()
 }
@@ -29,14 +31,7 @@ function getWeight(pokemonData) {
     return Math.round(weight * 10) / 10
 }
 
-async function main() {
-    // get pokémon from user
-    if (process.argv.length !== 3) {
-        console.error("Usage: pkmn-dex-string <pokémon name>")
-        exit(1)
-    }
-    const pokemon = process.argv[2].toLowerCase()
-
+async function getString(pokemon, format) {
     // get data from api
     const pokemonData = await fetchData("https://pokeapi.co/api/v2/pokemon/" + pokemon)
     const speciesData = await fetchData(pokemonData.species.url)
@@ -49,7 +44,34 @@ async function main() {
 
     // convert data to string format
     const svFormat = `NO. ${String(number).padStart(4, "0")}  ${species}  HT: ${height.ft}'${height.in}"  WT: ${weight} lbs.`
-    console.log(svFormat)
+    return svFormat
+}
+
+async function main() {
+    // get pokémon from user
+    const args = parseArgs(process.argv.slice(2), {
+        boolean: [ "batch" ],
+        string: [ "delimiter", "format" ],
+        alias: {
+            "b": "batch",
+            "d": "delimiter",
+            "f": "format"
+        }
+    })
+
+    if (args._.length === 0) {
+        console.error("Must provide at least 1 Pokémon.")
+        process.exit(1)
+    }
+
+    if (!args.batch) {
+        const pokemon = args._[0]
+        console.log(await getString(pokemon, args.format))
+    } else {
+        const pokemon = args._
+        const strings = await Promise.all(pokemon.map(p => getString(p, args.format)))
+        console.log(strings.join(args.delimiter || "\n"))
+    }
 }
 
 main()
