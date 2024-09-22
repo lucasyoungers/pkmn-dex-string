@@ -61,7 +61,10 @@ async function getString(pokemon, format="sv") {
         case "sv":
             format = `NO. %4n  %s  HT: %f'%i"  WT: %w lbs.`
             break
-        default:
+	case "omnium":
+            format = `#%n  %s  HT: %f’ %i”  WT: %w lbs.`
+            break
+	default:
             break
     }
 
