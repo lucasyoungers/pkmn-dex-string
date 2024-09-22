@@ -4,7 +4,7 @@ A node.js CLI app designed to generate Pokédex strings as seen on the border of
 ## Installation
 Prerequisites: npm, node.js (developed for npm 10, node 20)
 ```bash
-cd pkmn-deck-string
+cd pkmn-dex-string
 npm install
 ```
 
@@ -20,7 +20,7 @@ The `--batch`, or `-b` flag allows you to generate dex strings for a list of Pok
 node index.js --batch <pokémon name 1> <pokémon name 2> ... <pokémon name n>
 ```
 
-The `--delimiter`, or `-d` flag allows you to specify a custom delimeter for lists of deck strings. The default value is `\n`, or a newline character.
+The `--delimiter`, or `-d` flag allows you to specify a custom delimeter for lists of dex strings. The default value is `\n`, or a newline character.
 ```bash
 node index.js --delimiter=, <pokémon name>
 ```
